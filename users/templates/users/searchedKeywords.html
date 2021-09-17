@@ -1,0 +1,143 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Search History Saver</title>
+    <style>
+		body,
+		html {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			/*background: #7abecc !important;*/
+		}
+</style>
+  </head>
+
+  <body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+       
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          
+            {% if user.is_authenticated %}
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link " href="{% url 'logout' %}">LogOut</a>
+            </li>
+            
+          </ul>
+          <!--<form action="https://www.google.com/search" method="get">
+            <input type="search" name="q" id="searchItem" placeholder="Search" aria-label="Search"> 
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick=myFunc()>Search</button>
+           </form> -->
+           
+           
+          {% else %}
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Login <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'register' %}">SignUp</a>
+            </li>
+            </ul>
+            {% endif %}
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'search' %}">Search <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'storedKeyword' %}">Search History <span class="sr-only">(current)</span></a>
+                  </li>
+                </ul>
+        </div>
+      </nav>
+      
+    <div style="width:800px; margin:0 auto;">
+        <h4>All Searched Keywords By Me</h4>
+        {% if context12 is 0 %}
+         <p>You haven't search anything</p>
+         {% else %}
+        {% load multifor %}
+        {% for i in context2; j in context4 ; k in context3; l in context5 %}
+        
+        <input type="checkbox" id={{j}} onclick="myFunc(id)">
+        <label for={{j}}>{{i}}</label><br> 
+        <p id={{l}} style="display:none">You search this keyword <b>{{k}}</b> times!!</p>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <div style="width:800px; margin:0 auto;">
+        <h4>All Searched Keywords By All the Users</h4>
+        {% load multifor %}
+        {% for i in context8; j in context9 ; k in context10; l in context11 %}
+        
+        <!--{{k}}  {{l}} {{i}} {{j}} <br> -->
+        <input type="checkbox" id={{k}} onclick="myFunc1(id)">
+        <label for={{k}}>{{j}}</label><br> 
+        <p id={{l}} style="display:none">{{i}}</p>
+        {% endfor %}
+    </div>
+     
+     
+      <script>
+          
+        function myFunc(id){
+            let checkBox ="";
+            let text = "";
+            let id2 = "";
+            let a = parseInt(id);
+            a = a+97;
+            id2 = String.fromCharCode(a);
+           
+            checkBox = document.getElementById(id);
+            text = document.getElementById(id2);
+            console.log(checkBox);
+            console.log(text);
+            if (checkBox.checked == true){
+                text.style.display = "block"; 
+                } else {
+                    text.style.display = "none";
+                 }     
+           
+        }
+
+        function myFunc1(id){
+            let checkBox ="";
+            let text = "";
+            let id2 = "";
+            let a = parseInt(id);
+            a = a+91;
+            id2 = String.fromCharCode(a);
+           
+            checkBox = document.getElementById(id);
+            text = document.getElementById(id2);
+            console.log(checkBox);
+            console.log(text);
+            if (checkBox.checked == true){
+                text.style.display = "block"; 
+                } else {
+                    text.style.display = "none";
+                 }     
+           
+        }
+
+       
+
+    </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
