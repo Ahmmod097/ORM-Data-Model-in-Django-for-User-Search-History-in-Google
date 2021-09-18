@@ -87,8 +87,21 @@
         <p id={{l}} style="display:none">{{i}}</p>
         {% endfor %}
     </div>
-     
-     
+    
+    <div style="width:800px; margin:0 auto;">
+      <h4>Time Range</h4>
+      <input type="checkbox" id="yesterday" onclick="myFunc2(id)">
+        <label for="yesterday">Yesterday</label><br> 
+        <p id="yesterday1" style="display:none">Your searched keyword for the previous day is: <b>{{context13}}</b></p>
+      
+        <input type="checkbox" id="lastweek" onclick="myFunc2(id)">
+        <label for="lastweek">Last Week</label><br> 
+        <p id="lastweek1" style="display:none">Your searched keyword for the previous week is: <b>{{context14}}</b></p>  
+        
+        <input type="checkbox" id="lastmonth" onclick="myFunc2(id)">
+        <label for="lastmonth">Last Month</label><br> 
+        <p id="lastmonth1" style="display:none">Your searched keyword for the previous month is: <b>{{context15}}</b></p>  
+      </div> 
       <script>
           
         function myFunc(id){
@@ -123,6 +136,22 @@
             text = document.getElementById(id2);
             console.log(checkBox);
             console.log(text);
+            if (checkBox.checked == true){
+                text.style.display = "block"; 
+                } else {
+                    text.style.display = "none";
+                 }     
+           
+        }
+
+        function myFunc2(id){
+            let checkBox ="";
+            let text = "";
+            
+            
+            checkBox = document.getElementById(id);
+            text = document.getElementById(id+"1");
+            
             if (checkBox.checked == true){
                 text.style.display = "block"; 
                 } else {
