@@ -27,7 +27,17 @@
        
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'search' %}">Search <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'storedKeyword' %}">Search History <span class="sr-only">(current)</span></a>
+            </li>
+            </ul>
             {% if user.is_authenticated %}
             <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -50,14 +60,7 @@
             </li>
             </ul>
             {% endif %}
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'search' %}">Search <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'storedKeyword' %}">Search History <span class="sr-only">(current)</span></a>
-              </li>
-              </ul>
+            
         </div>
       </nav>
       <p class="text-sm-left"style="font-size:20px;">You have been logged out</p>

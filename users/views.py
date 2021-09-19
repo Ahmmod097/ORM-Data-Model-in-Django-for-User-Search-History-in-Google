@@ -1,16 +1,20 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import UserRegisterForm, KeywordForm
-from .models import UserInfo, Keyword
+from .models import UserInfo, Keyword, SearchedDate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 import datetime
 from datetime import date
 def home(request):
+    #This view function is responsible for home url. 
+
     return render(request, 'users/home.html')
     
 def userRegister(request):
+    #This view function is responsible for sign up url.
+
     if request.method == 'POST':
         form = UserRegisterForm(request.POST,request.FILES)
         #print(form.errors)
@@ -46,11 +50,16 @@ def userRegister(request):
     return render(request, 'users/userRegister.html', {'form': form})
 
 def returnCurrentDate():
+    #This function returns the current method 
+
     time = datetime.datetime.now()
     time = str(time)
     return time
 
 def convertDate(date):
+    #This function takes a date parameter and converts it to integer type.
+    #Example: 2019-06-15 17:56.234 to 20190615
+    
     time1=""
     for i in date:
 
@@ -65,11 +74,15 @@ def convertDate(date):
     return time1
 
 def splitmonthfromDate(date):
+    #This function takes a date parameter splits month from date and return month 
+    #Example: 2019-06-15  to 06
     date = str(date)
     month = date[4] + date[5]
     return month
 
 def monthCalculator(date):
+    #This function returns the first and last date of previous month
+    #Example: 2019-06-15 , returns 2019-05-01 and 2019-05-31
     mydict = {
         '1':31,
         '2':28,
@@ -107,6 +120,8 @@ def monthCalculator(date):
     return li   
 
 def weekCalculator(date):
+    #This function returns the first and last date of previous week
+    #Example: 2019-06-15 , returns 2019-06-08 and 2019-06-01
     mydict = {
         '1':31,
         '2':28,
@@ -146,6 +161,8 @@ def weekCalculator(date):
     return date1 
 
 def dayCalculator(date):
+     #This function returns the date of previous day
+    #Example: 2019-06-15 , returns 2019-06-14 
     mydict = {
         '1':31,
         '2':28,
@@ -188,7 +205,7 @@ def dayCalculator(date):
 
 @login_required
 def saveKeyword(request):
-   
+   #This function is responsible for saving keywords which user searchs
     if request.method == 'POST':
         form = KeywordForm(request.POST)
         
@@ -204,7 +221,7 @@ def saveKeyword(request):
             searchKeyword.save()
             
             
-            return redirect("https://www.google.com/search?q="+keyword)
+            return redirect("https://www.google.com/search?q="+keyword) #Takes to the google's searched page
 
     else:
         form = KeywordForm()        
@@ -215,11 +232,11 @@ def saveKeyword(request):
 
 @login_required
 def storedKeyword(request):
-   
+   #This function is responsible for performs various operation on search history page
     
-    c_user = request.user        
-    li1 = []
-    dictionary = {}
+    c_user = request.user   #get the current user     
+    li1 = []      # this list contains a keyword's total search count
+    dictionary = {} # this dictionaries key is the keyword and value is the total number of search
     obj1 = Keyword.objects.filter(user = c_user)
     for i in obj1:
         li1.append(i.keyword)
@@ -243,8 +260,8 @@ def storedKeyword(request):
             temp = cnt;
     li2 = []
     li3 = []
-    li4 = []
-    li5 = []
+    li4 = [] # this list contains unique id for dom elements
+    li5 = [] # this list contains unique id for dom elements
     ans = 0
     for key, value in dictionary.items() :
         #li4.append(str(ans))
@@ -255,7 +272,7 @@ def storedKeyword(request):
     for i in range(0,len(li4)):
         i = i+97
         li5.append(chr(i))
-
+    #From this below line portion 
     obj2 = Keyword.objects.all()
     li6 = []
     li7 = []
@@ -295,7 +312,9 @@ def storedKeyword(request):
         else:
             s2 = i.username+" searched nothing"
             li8.append(s2)    
-     
+    # to this upper this portion is responsible for the keywords searched by each user
+    
+    #From this below line portion
     c_time = returnCurrentDate()
     c_time = convertDate(c_time)
     p_day = dayCalculator(c_time)
@@ -377,6 +396,35 @@ def storedKeyword(request):
             s4+=i
             s4+=','
             s4+=' '
+
+    li16 = []
+    z12 = set()
+   #To this upper line portion is responsible for yesterday, last week, last months searched keyword by current user
+    
+    #From this below portion 
+    startDate = 0
+    endDate = 0  
+    if request.method == 'POST':
+       
+        startDate = convertDate(request.POST['name'])
+        endDate =   convertDate(request.POST['name1'])
+        
+        sD = SearchedDate(startDate = (startDate), endDate = (endDate))
+        sD.save()
+
+    
+    t1=startDate
+    t2 =endDate
+    for j in obj2:
+        if(j.user == c_user):
+            t3 = int(j.date)
+            if(t3>=(t1) and t3<=(t2)):
+                li16.append(j.keyword)
+   
+    #To this up line portion is responsible for showing the searched keyword by current user
+    # between two dates. Everything is perfect but this block is not working
+
+
     return render(request, 'users/searchedKeywords.html', {'context1':li1, 'context2':li2, 
                                                            'context3':li3, 'context4':li4, 
                                                           'context5':li5, 'context8':li8, 

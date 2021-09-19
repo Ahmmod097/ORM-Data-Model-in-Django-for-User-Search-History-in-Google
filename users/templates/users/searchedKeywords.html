@@ -1,8 +1,12 @@
-
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
+    
+   <!-- <script type="text/javascript" src="{% static 'js/jquery-3.6.0.min.js' %}" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>-->
     <!-- Required meta tags -->
+    
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -27,7 +31,17 @@
        
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'search' %}">Search <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'storedKeyword' %}">Search History <span class="sr-only">(current)</span></a>
+            </li>
+            </ul>
             {% if user.is_authenticated %}
             <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -51,14 +65,7 @@
             </li>
             </ul>
             {% endif %}
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'search' %}">Search <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'storedKeyword' %}">Search History <span class="sr-only">(current)</span></a>
-                  </li>
-                </ul>
+            
         </div>
       </nav>
       
@@ -101,7 +108,27 @@
         <input type="checkbox" id="lastmonth" onclick="myFunc2(id)">
         <label for="lastmonth">Last Month</label><br> 
         <p id="lastmonth1" style="display:none">Your searched keyword for the previous month is: <b>{{context15}}</b></p>  
-      </div> 
+      </div>
+      
+   <!--   This block is supposed to show the searched keywords between two dates. but
+    the context variable is showing null here. Couldn't debug it 
+     <div style="width:800px; margin:0 auto;">
+        <h4>Select Date</h4>
+        <form method="POST" id="test_form">
+          {% csrf_token %}
+          <label for="name"><b>Start date:</b></label>
+          <input type="date" id="name" name="name" placeholder="Type Start Date ...">
+          <label for="name1"><b>End date:</b></label>
+          <input type="date" id="name1" name="name1" placeholder="Type End Date ...">
+          
+          <input type="submit"  value="GO!"  ></input>
+        </form> 
+       <input type="submit" id="name12" value="GO!" onclick="myFunc3(id)" ></input>
+          <p id="name123" style="display:none">Hello{{context16}}</p>  -->
+          
+          
+        
+        </div>
       <script>
           
         function myFunc(id){
@@ -160,12 +187,49 @@
            
         }
 
-       
+        function myFunc3(id){
+            id = id+'3';
+            let text = document.getElementById(id);
+           
+            let t = "{{show}}";
+            alert(t);
+            
+           if (text.style.display === "none") {
+                   text.style.display = "block";
+                   } else {
+                   text.style.display = "none";
+                 } 
+           
+        }
 
-    </script>
+        $(document).on('submit','#test_form', function(e){
+          e.preventDefault();
+          $.ajax({
+                type: 'POST',
+                url: '/storeKeywords/',
+               
+               data: {
+              name:$('#name').val(),
+              name1:$('#name1').val(),
+             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+               success: function(data){
+                
+                
+            }
+            });
+          
+        });
+
+      </script>
+    
+
+         
+
+    
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>

@@ -16,3 +16,11 @@ class Keyword(models.Model):
 
     def __str__(self):
         return '%s' %(self.keyword)
+
+class SearchedDate(models.Model):
+   
+    startDate =  models.CharField(max_length=100)
+    endDate = models.CharField(max_length=100)
+
+    def __str__(self):
+        return '%s' %(self.startDate)        
