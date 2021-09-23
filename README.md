@@ -43,10 +43,11 @@ If I select any of those checkboxes, results will be filtered using some JS, wit
 
 ![5](https://user-images.githubusercontent.com/55923593/133938886-2b7a81b0-9840-4d86-8517-49e6402f06fa.JPG)
 ![6](https://user-images.githubusercontent.com/55923593/133938887-b74ece90-30c4-4574-aa82-1505782b2774.JPG)
-![7](https://user-images.githubusercontent.com/55923593/133938888-cd1b61a7-fd0b-41b8-a48b-f81009e44bc6.JPG)
+![11](https://user-images.githubusercontent.com/55923593/134463324-ce593f82-8d25-4394-b182-e0701799f33f.JPG)
+![12](https://user-images.githubusercontent.com/55923593/134463334-f5ba6ffd-4a2b-419b-a6ec-f6c8bb469ff2.JPG)
+
 ![8](https://user-images.githubusercontent.com/55923593/133938997-5e1719dc-b001-40f6-9fe9-7648ecf1c4b7.JPG)
 ![9](https://user-images.githubusercontent.com/55923593/133939004-7790ce96-de5e-42f6-8b41-e8971502ca5b.JPG)
 
 ![10](https://user-images.githubusercontent.com/55923593/133938929-f79f1add-5a67-41bb-91e7-bb409f09e562.JPG)
-![11](https://user-images.githubusercontent.com/55923593/134463324-ce593f82-8d25-4394-b182-e0701799f33f.JPG)
-![12](https://user-images.githubusercontent.com/55923593/134463334-f5ba6ffd-4a2b-419b-a6ec-f6c8bb469ff2.JPG)
+
