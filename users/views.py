@@ -448,6 +448,7 @@ def storedKeyword(request):
 
 
 def specificKeywordwithDate(request):
+    #This function fetches the searched keyword between two dates
     a1 = SearchedDate.objects.last()
     t1 = a1.startDate
     t2 = a1.endDate
@@ -476,4 +477,4 @@ def specificKeywordwithDate(request):
             s4+=','
             s4+=' '            
 
-    return render(request, 'users/datekeywords.html', {'context16':s4})
+    return render(request, 'users/dateKeywords.html', {'context16':s4})
