@@ -111,24 +111,25 @@
       </div>
       
    <!--   This block is supposed to show the searched keywords between two dates. but
-    the context variable is showing null here. Couldn't debug it 
+    the context variable is showing null here. Couldn't debug it -->
      <div style="width:800px; margin:0 auto;">
         <h4>Select Date</h4>
-        <form method="POST" id="test_form">
-          {% csrf_token %}
-          <label for="name"><b>Start date:</b></label>
-          <input type="date" id="name" name="name" placeholder="Type Start Date ...">
-          <label for="name1"><b>End date:</b></label>
-          <input type="date" id="name1" name="name1" placeholder="Type End Date ...">
-          
-          <input type="submit"  value="GO!"  ></input>
+       
+           
+          <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                
+                <b>{{ form}}</b>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">See Result</button>
+            </div>
         </form> 
-       <input type="submit" id="name12" value="GO!" onclick="myFunc3(id)" ></input>
-          <p id="name123" style="display:none">Hello{{context16}}</p>  -->
-          
           
         
         </div>
+        
       <script>
           
         function myFunc(id){
@@ -187,40 +188,7 @@
            
         }
 
-        function myFunc3(id){
-            id = id+'3';
-            let text = document.getElementById(id);
-           
-            let t = "{{show}}";
-            alert(t);
-            
-           if (text.style.display === "none") {
-                   text.style.display = "block";
-                   } else {
-                   text.style.display = "none";
-                 } 
-           
-        }
-
-        $(document).on('submit','#test_form', function(e){
-          e.preventDefault();
-          $.ajax({
-                type: 'POST',
-                url: '/storeKeywords/',
-               
-               data: {
-              name:$('#name').val(),
-              name1:$('#name1').val(),
-             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-            },
-               success: function(data){
-                
-                
-            }
-            });
-          
-        });
-
+       
       </script>
     
 

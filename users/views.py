@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .forms import UserRegisterForm, KeywordForm
+from .forms import UserRegisterForm, KeywordForm, DateForm
 from .models import UserInfo, Keyword, SearchedDate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -402,24 +402,36 @@ def storedKeyword(request):
    #To this upper line portion is responsible for yesterday, last week, last months searched keyword by current user
     
     #From this below portion 
-    startDate = 0
-    endDate = 0  
-    if request.method == 'POST':
-       
-        startDate = convertDate(request.POST['name'])
-        endDate =   convertDate(request.POST['name1'])
-        
-        sD = SearchedDate(startDate = (startDate), endDate = (endDate))
-        sD.save()
-
+    startDate = ""
+    endDate = ""  
+    t1 = 0
+    t2 = 0
     
-    t1=startDate
-    t2 =endDate
-    for j in obj2:
-        if(j.user == c_user):
-            t3 = int(j.date)
-            if(t3>=(t1) and t3<=(t2)):
-                li16.append(j.keyword)
+    if request.method == 'POST':
+        form = DateForm(request.POST)
+       
+        if form.is_valid():
+            startDate = convertDate(request.POST['startdate'])
+            endDate = convertDate(request.POST['enddate'])
+            sD = SearchedDate(startDate=startDate, endDate=endDate)
+            sD.save()
+            return redirect('date')
+        else:
+            
+            messages.error(request, "Date should be like Year-Month-day")
+            form = DateForm()       
+
+    else:
+        form = DateForm()  
+    
+   
+     
+    
+    #for j in obj2:
+        #if(j.user == c_user):
+            #t3 = int(j.date)
+            #if(t3>=int(t1) and t3<=int(t2)):
+                #li16.append(j.keyword)
    
     #To this up line portion is responsible for showing the searched keyword by current user
     # between two dates. Everything is perfect but this block is not working
@@ -431,4 +443,37 @@ def storedKeyword(request):
                                                            'context9':li9, 'context10':li10,
                                                            'context11':li11, 'context12':len(li3),
                                                            'context13':s2, 'context14':s3,
-                                                           'context15':s4})  
+                                                           'context15':s4, 'form': form
+                                                           })  
+
+
+def specificKeywordwithDate(request):
+    a1 = SearchedDate.objects.last()
+    t1 = a1.startDate
+    t2 = a1.endDate
+    
+    li1 = []
+    z1 = set()
+    s4=""
+    c_user = request.user
+    obj2 = obj2 = Keyword.objects.all()
+    for j in obj2:
+        if(j.user == c_user):
+
+            t3 = int(j.date)
+            
+            if(t3>=int(t1) and t3<=int(t2)):
+                
+                li1.append(j.keyword)
+            z1.update(li1) 
+
+    if(len(z1)==0):
+        s4+="nothing"
+    else:
+
+        for i in z1:
+            s4+=i
+            s4+=','
+            s4+=' '            
+
+    return render(request, 'users/datekeywords.html', {'context16':s4})

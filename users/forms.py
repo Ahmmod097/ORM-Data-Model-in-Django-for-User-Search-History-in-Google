@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import password_validation
 from django.contrib.auth.validators import UnicodeUsernameValidator
-from . models import Keyword
+from . models import Keyword, SearchedDate
 username_validator = UnicodeUsernameValidator()
 
 class UserRegisterForm(UserCreationForm):
@@ -43,3 +43,12 @@ class KeywordForm(forms.ModelForm):
     class Meta:
         model = Keyword
         fields = ('keyword',)        
+
+class DateForm(forms.ModelForm):
+    startdate = forms.DateField(widget=forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD', 'required': 'required'}))
+    enddate =   forms.DateField(widget=forms.DateInput(attrs={'placeholder': 'YYYY-MM-DD', 'required': 'required'}))
+
+    class Meta:
+        model = SearchedDate
+        fields = ('startdate','enddate', )
+           
